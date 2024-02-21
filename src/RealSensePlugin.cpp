@@ -185,7 +185,7 @@ void RealSensePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
   this->transportNode->Init(this->world->Name());
 
   // Setup Publishers
-  std::string rsTopicRoot = "~/" + this->rsModel->GetName();
+  std::string rsTopicRoot = "/" + this->rsModel->GetName() + "/";
 
   this->depthPub = this->transportNode->Advertise<msgs::ImageStamped>(
       rsTopicRoot + DEPTH_CAMERA_TOPIC, 1, depthUpdateRate_);
