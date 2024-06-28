@@ -51,6 +51,12 @@ void RealSensePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
       << "RealSensePlugin: The realsense_camera plugin is attached to model "
       << _model->GetName() << std::endl;
 
+  // Store a pointer to the this model
+  this->rsModel = _model;
+
+  // Store a pointer to the world
+  this->world = this->rsModel->GetWorld();
+
   _sdf = _sdf->GetFirstElement();
 
   cameraParamsMap_.insert(std::make_pair(COLOR_CAMERA_NAME, CameraParams()));
@@ -118,17 +124,13 @@ void RealSensePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
       this->prefix = _sdf->GetValue()->GetAsString();
     else if (name == "robotNamespace")
       break;
+    else if (name == "frameName")
+      ;
     else
       throw std::runtime_error("Ivalid parameter for RealSensePlugin");
-
+    
     _sdf = _sdf->GetNextElement();
   } while (_sdf);
-
-  // Store a pointer to the this model
-  this->rsModel = _model;
-
-  // Store a pointer to the world
-  this->world = this->rsModel->GetWorld();
 
   // Sensors Manager
   sensors::SensorManager *smanager = sensors::SensorManager::Instance();
@@ -185,7 +187,7 @@ void RealSensePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
   this->transportNode->Init(this->world->Name());
 
   // Setup Publishers
-  std::string rsTopicRoot = "/" + this->rsModel->GetName() + "/";
+  std::string rsTopicRoot = "/" + this->rsModel->GetName() + "/" + "realsense_camera" + "/";
 
   this->depthPub = this->transportNode->Advertise<msgs::ImageStamped>(
       rsTopicRoot + DEPTH_CAMERA_TOPIC, 1, depthUpdateRate_);

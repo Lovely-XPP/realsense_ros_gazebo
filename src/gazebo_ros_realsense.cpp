@@ -44,7 +44,7 @@ namespace gazebo
         new camera_info_manager::CameraInfoManager(*this->rosnode_, this->GetHandle()));
 
     this->itnode_ = new image_transport::ImageTransport(*this->rosnode_);
-    std::string rsTopicRoot = "/" + this->rsModel->GetName() + "/";
+    std::string rsTopicRoot = "/" + this->rsModel->GetName() + "/" + "realsense_camera" + "/";
 
     this->color_pub_ = this->itnode_->advertiseCamera(rsTopicRoot + cameraParamsMap_[COLOR_CAMERA_NAME].topic_name, 2);
     this->ir1_pub_ = this->itnode_->advertiseCamera(rsTopicRoot + cameraParamsMap_[IRED1_CAMERA_NAME].topic_name, 2);

@@ -92,7 +92,7 @@ protected:
   /// \brief Pointer to the transport Node.
   transport::NodePtr transportNode;
 
-  // \brief Store Real Sense depth map data.
+  /// \brief Store Real Sense depth map data.
   std::vector<uint16_t> depthMap;
 
   /// \brief Pointer to the Depth Publisher.
